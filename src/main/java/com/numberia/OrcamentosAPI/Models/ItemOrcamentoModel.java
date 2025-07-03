@@ -21,12 +21,12 @@ public class ItemOrcamentoModel {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "obra_id")
     @JsonIgnore
     private ObraModel obra;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "recurso_id")
     private RecursoModel recurso;
 
