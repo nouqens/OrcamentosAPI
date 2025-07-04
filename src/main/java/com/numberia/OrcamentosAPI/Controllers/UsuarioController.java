@@ -2,26 +2,30 @@ package com.numberia.OrcamentosAPI.Controllers;
 
 
 import com.numberia.OrcamentosAPI.Models.UsuarioModel;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.numberia.OrcamentosAPI.Services.UsuarioService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping
 public class UsuarioController {
 
+
+    private final UsuarioService usuarioService;
+
+    public UsuarioController(UsuarioService usuarioService) {
+        this.usuarioService = usuarioService;
+    }
+
     @GetMapping("/boasvindas")
-    public String boasVindas() {
-        return "oi";
+    public List<UsuarioModel> getAll() {
+        return usuarioService.getAll();
     }
 
     @PostMapping("/cadastrarusuario")
-    public String cadastrarUsuario(String nome, String email, byte idade){
-        UsuarioModel u = new UsuarioModel(nome, email, idade);
-
-        return "Cadastrado";
-
+    public UsuarioModel cadastrarUsuario(@RequestBody UsuarioModel usuarioModel){
+        return usuarioService.save(usuarioModel);
     }
 
 }
