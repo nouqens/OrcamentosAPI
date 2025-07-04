@@ -2,6 +2,9 @@ package com.numberia.OrcamentosAPI.Models;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +22,25 @@ import java.util.UUID;
 public class UsuarioModel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(name = "id", unique = true)
     private UUID id;
+
+    @Column(name = "nome", nullable = false, length = 100)
+    @NotNull
+    @NotEmpty
+    @Size(min=3, max = 100)
     private String nome;
+
+    @Column(name = "email", nullable = false, length = 150, unique = true)
+    @NotNull
+    @NotEmpty
+    @Size(min=3, max = 150)
     private String email;
+
+    @Column(name = "senha", nullable = false, length = 50)
+    @NotNull
+    @NotEmpty
+    @Size(min=8, max = 50)
     private String senha;
 
 
