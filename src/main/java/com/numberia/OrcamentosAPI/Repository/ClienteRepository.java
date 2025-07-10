@@ -1,0 +1,17 @@
+package com.numberia.OrcamentosAPI.Repository;
+
+import com.numberia.OrcamentosAPI.Models.ClienteModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.NativeQuery;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+import java.util.UUID;
+
+public interface ClienteRepository extends JpaRepository<ClienteModel, UUID> {
+
+    @Query(value = "SELECT c FROM Cliente c WHERE c.nome = :name", nativeQuery = true)
+    List<ClienteModel> findByName(@Param("name") String name);
+
+}
