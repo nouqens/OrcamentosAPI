@@ -1,6 +1,8 @@
 package com.numberia.OrcamentosAPI.Controllers;
 
+import com.numberia.OrcamentosAPI.DTOs.ClienteDTO;
 import com.numberia.OrcamentosAPI.Models.ClienteModel;
+import com.numberia.OrcamentosAPI.Models.UsuarioModel;
 import com.numberia.OrcamentosAPI.Services.ClienteService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +23,15 @@ public class ClienteController {
 
     // Buscar todos os clientes
     @GetMapping
-    public List<ClienteModel> getAll() {
-        return clienteService.getAll();
+    public ResponseEntity<List<ClienteDTO>> getAll() {
+        return new ResponseEntity<>(clienteService.getAll(), HttpStatus.OK);
     }
 
     // Buscar cliente por ID
     @GetMapping("/{id}")
-    public ResponseEntity<ClienteModel> getById(@PathVariable UUID id) {
-        ClienteModel cliente = clienteService.get(id);
-        return ResponseEntity.ok(cliente);
+    public ResponseEntity<ClienteDTO> getById(@PathVariable UUID id) {
+        ClienteDTO clienteDTO = clienteService.get(id);
+        return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
     }
 
     // Buscar cliente por nome (via query param)
@@ -40,8 +42,8 @@ public class ClienteController {
 
     // Criar novo cliente
     @PostMapping
-    public ResponseEntity<ClienteModel> save(@RequestBody ClienteModel clienteModel) {
-        ClienteModel savedCliente = clienteService.save(clienteModel);
+    public ResponseEntity<ClienteDTO> save(@RequestBody ClienteDTO clienteDTO) {
+        ClienteDTO savedCliente = clienteService.save(clienteDTO);
         return new ResponseEntity<>(savedCliente, HttpStatus.CREATED);
     }
 
@@ -54,8 +56,14 @@ public class ClienteController {
 
     // Deletar cliente
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable UUID id) {
-        clienteService.delete(id);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<ClienteModel> delete(@PathVariable UUID id) {
+        ClienteModel delete = clienteService.delete(id);
+        return new ResponseEntity<>(delete, HttpStatus.OK);
+    }
+
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<UsuarioModel> findUsuarioByCliente(@PathVariable UUID id){
+        UsuarioModel usuarioModel = clienteService.findUsuarioByCliente(id);
+        return new ResponseEntity<>(usuarioModel, HttpStatus.OK);
     }
 }

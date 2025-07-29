@@ -11,7 +11,10 @@ import java.util.UUID;
 
 public interface ClienteRepository extends JpaRepository<ClienteModel, UUID> {
 
-    @Query(value = "SELECT c FROM Cliente c WHERE c.nome = :name", nativeQuery = true)
+    @Query(value = "SELECT c FROM tb_clientes c WHERE c.nome = :name", nativeQuery = true)
     List<ClienteModel> findByName(@Param("name") String name);
 
+
+    @Query(value = "SELECT * FROM tb_clientes WHERE usuario_id = :usuario_id", nativeQuery = true)
+    List<ClienteModel> findClienteByUsuarioId(@Param("usuario_id") UUID id);
 }

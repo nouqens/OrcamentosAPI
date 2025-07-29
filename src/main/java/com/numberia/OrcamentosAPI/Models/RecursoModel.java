@@ -28,7 +28,54 @@ public class RecursoModel {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "usuario_id", nullable = false)
+
     private UsuarioModel usuario;
 
+    public UUID getId() {
+        return id;
+    }
 
+    public void setId(UUID id) {
+        this.id = id;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getUnidade() {
+        return unidade;
+    }
+
+    public void setUnidade(String unidade) {
+        this.unidade = unidade;
+    }
+
+    public double getPrecoUnitario() {
+        return precoUnitario;
+    }
+
+    public void setPrecoUnitario(double precoUnitario) {
+        this.precoUnitario = precoUnitario;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public UsuarioModel getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioModel usuario) {
+        this.usuario = usuario;
+    }
 }
