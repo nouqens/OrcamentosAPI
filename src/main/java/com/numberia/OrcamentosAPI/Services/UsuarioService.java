@@ -1,26 +1,31 @@
 package com.numberia.OrcamentosAPI.Services;
 
-import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.numberia.OrcamentosAPI.DTOs.ClienteDTO;
 import com.numberia.OrcamentosAPI.DTOs.UsuarioDTO;
 import com.numberia.OrcamentosAPI.DTOs.UsuarioRequestDTO;
-import com.numberia.OrcamentosAPI.Models.ClienteModel;
+import com.numberia.OrcamentosAPI.Infra.Security.TokenService;
 import com.numberia.OrcamentosAPI.Models.UsuarioModel;
 import com.numberia.OrcamentosAPI.Repository.ClienteRepository;
 import com.numberia.OrcamentosAPI.Repository.UsuarioRepository;
 import com.numberia.OrcamentosAPI.Roles.UsuarioRole;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
 public class UsuarioService {
 
+    @Autowired
+    private TokenService tokenService;
+
     private final UsuarioRepository usuarioRepository;
     private final ClienteRepository clienteRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     public UsuarioService(UsuarioRepository usuarioRepository, ClienteRepository clienteRepository) {
         this.usuarioRepository = usuarioRepository;
@@ -40,6 +45,17 @@ public class UsuarioService {
     public UsuarioDTO get(UUID id) {
         UsuarioModel usuarioModel = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuário não encontrado!"));
         return new UsuarioDTO(usuarioModel);
+    }
+
+    public UsuarioRequestDTO getMe(String token) {
+
+        String data = tokenService.validateToken(token);
+        Optional<UsuarioModel> user = usuarioRepository.findOptionalByEmail(data);
+        UsuarioRequestDTO dto = new UsuarioRequestDTO();
+        dto.setNome(user.get().getNome());
+        dto.setId(user.get().getId());
+        dto.setEmail(data);
+        return dto;
     }
 
 
@@ -72,8 +88,17 @@ public class UsuarioService {
         return exist;
     }
 
-    public List<ClienteModel> getAllClientes(UUID id){
-        return clienteRepository.findClienteByUsuarioId(id);
+    public List<ClienteDTO> getAllClientes(UUID id){
+        return clienteRepository.findByUsuarioId(id)
+                .stream()
+                .map(c -> new ClienteDTO(
+                        c.getNome(),
+                        c.getTelefone(),
+                        c.getEndereco(),
+                        c.getObservacao(),
+                        c.getId()
+                ))
+                .toList();
     }
 
 }
