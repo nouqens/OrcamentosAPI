@@ -21,40 +21,40 @@ public class ClienteController {
         this.clienteService = clienteService;
     }
 
-    // Buscar todos os clientes
     @GetMapping
     public ResponseEntity<List<ClienteDTO>> getAll() {
         return new ResponseEntity<>(clienteService.getAll(), HttpStatus.OK);
     }
 
-    // Buscar cliente por ID
     @GetMapping("/{id}")
     public ResponseEntity<ClienteDTO> getById(@PathVariable UUID id) {
         ClienteDTO clienteDTO = clienteService.get(id);
         return new ResponseEntity<>(clienteDTO, HttpStatus.OK);
     }
 
-    // Buscar cliente por nome (via query param)
-    @GetMapping("/buscar-por-nome")
-    public List<ClienteModel> getByName(@RequestParam String name) {
-        return clienteService.findByName(name);
+
+    @GetMapping("/name/{nome}")
+    public ResponseEntity<ClienteDTO> getByNome(@PathVariable String nome) {
+        return new ResponseEntity<>(clienteService.findByNome(nome), HttpStatus.OK);
     }
 
-    // Criar novo cliente
     @PostMapping
-    public ResponseEntity<ClienteDTO> save(@RequestBody ClienteDTO clienteDTO) {
-        ClienteDTO savedCliente = clienteService.save(clienteDTO);
-        return new ResponseEntity<>(savedCliente, HttpStatus.CREATED);
+    public ResponseEntity<?> save(@RequestBody ClienteDTO clienteDTO) {
+        try{
+            ClienteDTO saved = clienteService.save(clienteDTO);
+            return new ResponseEntity<>(saved, HttpStatus.CREATED);
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+
     }
 
-    // Atualizar cliente
     @PutMapping("/{id}")
     public ResponseEntity<ClienteModel> update(@RequestBody ClienteModel clienteModel, @PathVariable UUID id) {
         ClienteModel updatedCliente = clienteService.update(clienteModel, id);
         return ResponseEntity.ok(updatedCliente);
     }
 
-    // Deletar cliente
     @DeleteMapping("/{id}")
     public ResponseEntity<ClienteModel> delete(@PathVariable UUID id) {
         ClienteModel delete = clienteService.delete(id);
