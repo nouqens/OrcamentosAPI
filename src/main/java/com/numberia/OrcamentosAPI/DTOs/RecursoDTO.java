@@ -27,6 +27,15 @@ public class RecursoDTO {
 
     }
 
+    public RecursoDTO(UUID id, String descricao, String unidade, double precoUnitario, String tipo, UUID usuarioId) {
+        this.id = id;
+        this.descricao = descricao;
+        this.unidade = unidade;
+        this.precoUnitario = precoUnitario;
+        this.tipo = tipo;
+        this.usuarioId = usuarioId;
+    }
+
     public UUID getId() {
         return id;
     }
