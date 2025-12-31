@@ -32,6 +32,13 @@ public class RecursoService {
         return new RecursoDTO(recursoModel);
     }
 
+    public List<RecursoDTO> getAllByUser(UUID id){
+        List<RecursoDTO> recursoModels = recursoRepository.findAllByUser(id);
+        if (recursoModels.isEmpty()) throw new RuntimeException("Nenhum recurso cadastrado pelo usuario");
+        return recursoModels;
+
+    }
+
     public RecursoDTO save(@NotNull RecursoDTO recursoDTO){
         UsuarioModel usuarioModel = usuarioRepository.findById(recursoDTO.getUsuarioId())
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
