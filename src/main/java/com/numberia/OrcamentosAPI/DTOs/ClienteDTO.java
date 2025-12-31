@@ -30,6 +30,14 @@ public class ClienteDTO {
         this.usuarioId = clienteModel.getUsuario().getId();
     }
 
+    public ClienteDTO(String nome, String telefone, String endereco, String observacao, UUID usuarioId) {
+        this.nome = nome;
+        this.telefone = telefone;
+        this.endereco = endereco;
+        this.observacao = observacao;
+        this.usuarioId = usuarioId;
+    }
+
     public UUID getId() {
         return id;
     }
