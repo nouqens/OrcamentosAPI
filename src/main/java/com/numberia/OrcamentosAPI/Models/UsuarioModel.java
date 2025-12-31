@@ -143,7 +143,7 @@ public class UsuarioModel implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.nome;
     }
 
     @Override
