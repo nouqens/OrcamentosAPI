@@ -65,8 +65,9 @@ public class ClienteService {
         return exist;
     }
 
-    public List<ClienteModel> findByName(String name){
-        return clienteRepository.findByName(name);
+    public ClienteDTO findByNome(String nome){
+        ClienteModel clienteModel = clienteRepository.findByNome(nome).orElseThrow(() -> new RuntimeException("Cliente não encontrado!"));
+        return new ClienteDTO(clienteModel);
     }
 
     public UsuarioModel findUsuarioByCliente(UUID id){
