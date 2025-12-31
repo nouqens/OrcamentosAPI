@@ -17,6 +17,7 @@ public class ClienteModel {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
+    @Column(unique = true)
     private String nome;
     private String telefone;
     private String endereco;
