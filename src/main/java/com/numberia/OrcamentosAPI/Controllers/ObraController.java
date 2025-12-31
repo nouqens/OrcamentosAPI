@@ -1,5 +1,6 @@
 package com.numberia.OrcamentosAPI.Controllers;
 
+import com.numberia.OrcamentosAPI.DTOs.ItemOrcamentoDTO;
 import com.numberia.OrcamentosAPI.DTOs.ObraDTO;
 import com.numberia.OrcamentosAPI.Models.ObraModel;
 import com.numberia.OrcamentosAPI.Services.ObraService;
@@ -28,6 +29,18 @@ public class ObraController {
     public ResponseEntity<ObraDTO> get(@PathVariable UUID id){
         ObraDTO obraDTO = obraService.get(id);
         return new ResponseEntity<>(obraDTO, HttpStatus.OK);
+    }
+
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<List<ObraDTO>> getByUsuario(@PathVariable UUID id){
+        List<ObraDTO> obrasDto = obraService.getByUser(id);
+        return new ResponseEntity<>(obrasDto, HttpStatus.OK);
+    }
+
+    @GetMapping("/usuario/preco/{id}")
+    public ResponseEntity<List<ItemOrcamentoDTO>> getTotalPrice(@PathVariable UUID id){
+        List<ItemOrcamentoDTO> price = obraService.getTotalPrice(id);
+        return new ResponseEntity<>(price, HttpStatus.OK);
     }
 
     @PostMapping
