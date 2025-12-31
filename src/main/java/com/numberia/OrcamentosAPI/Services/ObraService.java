@@ -1,7 +1,9 @@
 package com.numberia.OrcamentosAPI.Services;
 
+import com.numberia.OrcamentosAPI.DTOs.ItemOrcamentoDTO;
 import com.numberia.OrcamentosAPI.DTOs.ObraDTO;
 import com.numberia.OrcamentosAPI.Models.ClienteModel;
+import com.numberia.OrcamentosAPI.Models.ItemOrcamentoModel;
 import com.numberia.OrcamentosAPI.Models.ObraModel;
 import com.numberia.OrcamentosAPI.Models.UsuarioModel;
 import com.numberia.OrcamentosAPI.Repository.ClienteRepository;
@@ -37,6 +39,10 @@ public class ObraService {
     public ObraDTO get(UUID id){
         ObraModel obraModel = obraRepository.findById(id).orElseThrow(() -> new RuntimeException("Obra não encontrada!"));
         return new ObraDTO(obraModel);
+    }
+
+    public List<ObraDTO> getByUser(UUID id){
+         return obraRepository.findByUsuarioId(id);
     }
 
     public ObraDTO save(ObraDTO dto) {
@@ -75,5 +81,14 @@ public class ObraService {
 
 
         return save(new ObraDTO(exist));
+    }
+
+
+    public List<ItemOrcamentoDTO> getTotalPrice(UUID id) {
+        if (!obraRepository.existsById(id)) {
+            throw new RuntimeException("Obra não encontrada!");
+        }
+        List<ItemOrcamentoModel> items = itemOrcamentoRepository.findByObra_Id(id);
+        return items.stream().map(ItemOrcamentoDTO::new).toList();
     }
 }
