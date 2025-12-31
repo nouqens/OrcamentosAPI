@@ -1,6 +1,5 @@
 package com.numberia.OrcamentosAPI.DTOs;
 
-import com.numberia.OrcamentosAPI.Models.ItemOrcamentoModel;
 import com.numberia.OrcamentosAPI.Models.ObraModel;
 
 import java.util.List;
@@ -14,9 +13,17 @@ public class ObraDTO {
     private UUID clienteId;
     private UUID usuarioId;
     private List<UUID> itensOrcamentoId;
+    private String usuarioNome;
 
     public ObraDTO() {
 
+    }
+
+    public ObraDTO(UUID id, String titulo, String status, String usuarioNome) {
+        this.id = id;
+        this.titulo = titulo;
+        this.status = status;
+        this.usuarioNome = usuarioNome;
     }
 
     public ObraDTO(ObraModel obra) {
@@ -27,6 +34,23 @@ public class ObraDTO {
         this.clienteId = obra.getCliente().getId();
         this.usuarioId = obra.getUsuario().getId();
 
+    }
+
+    public ObraDTO(UUID id, String titulo, String status, UUID usuarioId, UUID clienteId ) {
+        this.id = id;
+        this.titulo = titulo;
+        this.status = status;
+        this.usuarioId = usuarioId;
+        this.clienteId = clienteId;
+    }
+
+    public ObraDTO(UUID id, String titulo, String descricao, String status, UUID clienteId, UUID usuarioId) {
+        this.id = id;
+        this.titulo = titulo;
+        this.descricao = descricao;
+        this.status = status;
+        this.clienteId = clienteId;
+        this.usuarioId = usuarioId;
     }
 
     public UUID getId() {
