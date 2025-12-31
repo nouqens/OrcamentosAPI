@@ -36,6 +36,12 @@ public class RecursoController {
         return new ResponseEntity<>(savedRecuso, HttpStatus.CREATED);
     }
 
+    @GetMapping("/usuario/{id}")
+    public ResponseEntity<List<RecursoDTO>> getAllByUser(@PathVariable UUID id){
+        List<RecursoDTO> recursoDTOs = recursoService.getAllByUser(id);
+        return new ResponseEntity<>(recursoDTOs, HttpStatus.OK);
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<RecursoModel> delete(@PathVariable UUID id){
         RecursoModel deletedRecurso = recursoService.delete(id);
