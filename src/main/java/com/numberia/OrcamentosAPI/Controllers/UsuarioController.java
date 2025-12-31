@@ -1,13 +1,12 @@
 package com.numberia.OrcamentosAPI.Controllers;
 
 
+import com.numberia.OrcamentosAPI.DTOs.ClienteDTO;
 import com.numberia.OrcamentosAPI.DTOs.UsuarioDTO;
 import com.numberia.OrcamentosAPI.DTOs.UsuarioRequestDTO;
-import com.numberia.OrcamentosAPI.Models.ClienteModel;
 import com.numberia.OrcamentosAPI.Models.UsuarioModel;
-import com.numberia.OrcamentosAPI.Services.RecursoService;
 import com.numberia.OrcamentosAPI.Services.UsuarioService;
-import jakarta.websocket.server.PathParam;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -43,6 +42,14 @@ public class UsuarioController {
         return new ResponseEntity<>(usuarioDTO, HttpStatus.OK);
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<UsuarioRequestDTO> getMe(@RequestHeader("Authorization") String token){
+        UsuarioRequestDTO usuarioRequestDTO = usuarioService.getMe(token);
+        return new ResponseEntity<>(usuarioRequestDTO, HttpStatus.OK);
+
+        
+    }
+
     @PostMapping()
     public ResponseEntity<?> create(@RequestBody UsuarioModel usuarioModel){
         try {
@@ -71,7 +78,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/clientes/{id}")
-    public List<ClienteModel> getAllClientes(@PathVariable UUID id){
+    public List<ClienteDTO> getAllClientes(@PathVariable UUID id){
         return usuarioService.getAllClientes(id);
     }
 
